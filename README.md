@@ -2,7 +2,7 @@
 
 A simple tool to calculate hold times for osu!mania replays.
 
-# Usage
+## Usage
 
 Download the tool from the [releases page](https://github.com/tsunyoku/ManiaKeyPresses/releases/latest). Run the `.exe` file, and the UI should open.
 
