@@ -117,12 +117,15 @@ public partial class MainWindow : Window
             IsZoomEnabled = false,
             IsPanEnabled = false,
         });
+
+        double maxHoldTimeCount = analysis.HoldTimeCounts.SelectMany(x => x).Max();
         
         plotModel.Axes.Add(new LinearAxis
         {
             Position = AxisPosition.Left,
             Title = "count",
             TitleFontSize = 15,
+            Maximum = maxHoldTimeCount + maxHoldTimeCount * 0.1,
             MajorGridlineStyle = LineStyle.Solid,
             MajorGridlineColor = OxyColors.LightGray,
             IsZoomEnabled = false,
