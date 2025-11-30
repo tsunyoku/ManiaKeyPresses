@@ -151,6 +151,7 @@ public partial class MainWindow : Window
             plotModel.Series.Add(lineSeries);
         }
 
+        ViewModel.UpdateReplay(replayPath);
         PlotView.Model = plotModel;
     }
 

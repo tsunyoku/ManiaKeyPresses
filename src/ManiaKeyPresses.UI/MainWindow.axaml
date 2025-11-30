@@ -6,12 +6,7 @@
         x:DataType="ui:MainViewModel"
         Title="Replay Analyzer"
         Width="900" Height="700">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-    
+    <Grid RowDefinitions="Auto,Auto,*">
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
             <Button Name="LoadReplayButton" Content="Load Replay" Click="LoadReplayButton_Click" IsEnabled="{Binding IsOsuConfigured}"/>
         </StackPanel>
@@ -20,7 +15,14 @@
             <TextBox Name="OsuClientIdTextBox" Watermark="osu! API client ID" PasswordChar="*" RevealPassword="false" Width="200" Text="{x:Static ui:GlobalConfig.OsuClientId}" LostFocus="OsuClientIdTextBox_OnLostFocus"/>
             <TextBox Name="OsuClientSecretTextBox" Watermark="osu! API client secret" PasswordChar="*" RevealPassword="false" Width="200" Text="{x:Static ui:GlobalConfig.OsuClientSecret}" LostFocus="OsuClientSecretTextBox_OnLostFocus" Margin="10, 0, 0, 0"/>
         </StackPanel>
-    
-        <oxy:PlotView Grid.Row="1" Name="PlotView" Margin="10"/>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
+            <TextBlock IsVisible="{Binding HasReplay}" Margin="10">
+                <Run Text="Currently selected replay: "/>
+                <Run Text="{Binding CurrentReplayPath}"/>
+            </TextBlock>
+        </StackPanel>
+
+        <oxy:PlotView Grid.Row="2" Name="PlotView" Margin="10"/>
     </Grid>
 </Window>
