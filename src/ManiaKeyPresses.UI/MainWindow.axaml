@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oxy="http://oxyplot.org/avalonia"
+        xmlns:ui="clr-namespace:ManiaKeyPresses.UI"
+        x:Class="ManiaKeyPresses.UI.MainWindow"
+        x:DataType="ui:MainViewModel"
+        Title="Replay Analyzer"
+        Width="900" Height="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+    
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button Name="LoadReplayButton" Content="Load Replay" Click="LoadReplayButton_Click" IsEnabled="{Binding IsOsuConfigured}"/>
+            <Button Name="AnalyzeButton" Content="Analyze" Click="AnalyzeButton_Click" IsEnabled="{Binding IsReplayLoaded}" Margin="10,0,0,0"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+            <TextBox Name="OsuClientIdTextBox" Watermark="osu! API client ID" PasswordChar="*" RevealPassword="false" Width="200" Text="{x:Static ui:GlobalConfig.OsuClientId}" LostFocus="OsuClientIdTextBox_OnLostFocus"/>
+            <TextBox Name="OsuClientSecretTextBox" Watermark="osu! API client secret" PasswordChar="*" RevealPassword="false" Width="200" Text="{x:Static ui:GlobalConfig.OsuClientSecret}" LostFocus="OsuClientSecretTextBox_OnLostFocus" Margin="10, 0, 0, 0"/>
+        </StackPanel>
+    
+        <oxy:PlotView Grid.Row="1" Name="PlotView" Margin="10"/>
+    </Grid>
+</Window>
