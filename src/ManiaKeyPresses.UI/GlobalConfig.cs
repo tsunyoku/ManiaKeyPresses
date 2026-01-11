@@ -20,7 +20,7 @@ public static class GlobalConfig
 
     public static string? OsuClientSecret { get; private set; }
 
-    public static ThemeVariant Theme { get; private set; } = null!;
+    public static string Theme { get; private set; } = "Dark";
 
     public static void Load()
     {
@@ -37,7 +37,9 @@ public static class GlobalConfig
 
         OsuClientId = config.OsuClientId;
         OsuClientSecret = config.OsuClientSecret;
-        Theme = config.Theme ?? ThemeVariant.Default;
+
+        if (config.ThemeName is not null)
+            Theme = config.ThemeName;
     }
 
     public static void UpdateOsuClientId(string? clientId)
@@ -58,7 +60,7 @@ public static class GlobalConfig
 
     public static void UpdateTheme(ThemeVariant theme)
     {
-        Theme = theme;
+        Theme = (string)theme.Key;
 
         NotifyPropertyChanged(nameof(Theme));
         UpdateConfigFile();
@@ -70,7 +72,7 @@ public static class GlobalConfig
         {
             OsuClientId = OsuClientId,
             OsuClientSecret = OsuClientSecret,
-            Theme = Theme,
+            ThemeName = Theme,
         };
 
         File.WriteAllText(ConfigFile, JsonSerializer.Serialize(config));
@@ -90,5 +92,5 @@ file class Config
     
     public string? OsuClientSecret { get; init; }
     
-    public ThemeVariant? Theme { get; init; }
+    public string? ThemeName { get; init; }
 }

@@ -26,8 +26,8 @@ public partial class MainWindow : Window
 
         if (Application.Current is not null)
         {
-            Application.Current.RequestedThemeVariant = GlobalConfig.Theme;
-            ViewModel.UpdateIsDarkMode(GlobalConfig.Theme == ThemeVariant.Dark);
+            Application.Current.RequestedThemeVariant = new ThemeVariant(GlobalConfig.Theme, null);
+            ViewModel.UpdateIsDarkMode(GlobalConfig.Theme == "Dark");
         }
         
         DragDrop.SetAllowDrop(this, true);
@@ -86,8 +86,8 @@ public partial class MainWindow : Window
         if (app is null)
             return;
 
-        var currentTheme = app.ActualThemeVariant;
-        var newTheme = currentTheme == ThemeVariant.Dark ? ThemeVariant.Light : ThemeVariant.Dark;
+        var currentTheme = GlobalConfig.Theme;
+        var newTheme = currentTheme == "Dark" ? ThemeVariant.Light : ThemeVariant.Dark;
         app.RequestedThemeVariant = newTheme;
 
         ViewModel.UpdateIsDarkMode(newTheme == ThemeVariant.Dark);
