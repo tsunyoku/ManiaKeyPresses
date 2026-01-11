@@ -22,12 +22,21 @@ public class MainViewModel : INotifyPropertyChanged
 
     public bool HasReplay => !string.IsNullOrWhiteSpace(CurrentReplayFileName);
 
+    public bool IsDarkMode { get; private set; }
+
     public void UpdateReplay(string? replayFileName)
     {
         CurrentReplayFileName = replayFileName;
 
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentReplayFileName)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasReplay)));
+    }
+
+    public void UpdateIsDarkMode(bool isDarkMode)
+    {
+        IsDarkMode = isDarkMode;
+        
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsDarkMode)));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

@@ -1,10 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using Avalonia.Styling;
 using OxyPlot;
 using OxyPlot.Avalonia;
 using OxyPlot.Axes;
@@ -21,6 +23,12 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = new MainViewModel();
+
+        if (Application.Current is not null)
+        {
+            Application.Current.RequestedThemeVariant = GlobalConfig.Theme;
+            ViewModel.UpdateIsDarkMode(GlobalConfig.Theme == ThemeVariant.Dark);
+        }
         
         DragDrop.SetAllowDrop(this, true);
         AddHandler(DragDrop.DropEvent, Drop);
@@ -70,6 +78,21 @@ public partial class MainWindow : Window
         var replayPath = files.Single().TryGetLocalPath()!;
         AnalyseReplay(replayPath);
     }
+    
+    private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
+    {
+        var app = Application.Current;
+
+        if (app is null)
+            return;
+
+        var currentTheme = app.ActualThemeVariant;
+        var newTheme = currentTheme == ThemeVariant.Dark ? ThemeVariant.Light : ThemeVariant.Dark;
+        app.RequestedThemeVariant = newTheme;
+
+        ViewModel.UpdateIsDarkMode(newTheme == ThemeVariant.Dark);
+        GlobalConfig.UpdateTheme(newTheme);
+    }
 
     private void Drop(object? sender, DragEventArgs e)
     {
@@ -102,18 +125,29 @@ public partial class MainWindow : Window
         var plotModel = new PlotModel
         {
             Title = "Key Hold Time Distribution",
-            Background = OxyColors.White
+            Background = ViewModel.IsDarkMode ? OxyColors.Black : OxyColors.White,
+            TextColor = ViewModel.IsDarkMode ? OxyColors.White : OxyColors.Black,
+            TitleColor = ViewModel.IsDarkMode ? OxyColors.White : OxyColors.Black,
+            PlotAreaBorderColor = ViewModel.IsDarkMode ? OxyColors.Gray : OxyColors.Black
         };
+
+        var gridColour = ViewModel.IsDarkMode ? OxyColors.DarkGray : OxyColors.LightGray;
+        var axisColour = ViewModel.IsDarkMode ? OxyColors.White : OxyColors.Black;
 
         plotModel.Axes.Add(new LinearAxis
         {
             Position = AxisPosition.Bottom,
             Title = "pressing time (ms)",
             TitleFontSize = 15,
+            TitleColor = axisColour,
+            TextColor = axisColour,
+            AxislineColor = axisColour,
+            TicklineColor = axisColour,
             Minimum = 0,
             Maximum = 160,
             MajorGridlineStyle = LineStyle.Solid,
-            MajorGridlineColor = OxyColors.LightGray,
+            MajorGridlineColor = gridColour,
+            MinorGridlineColor = gridColour,
             IsZoomEnabled = false,
             IsPanEnabled = false,
         });
@@ -125,9 +159,14 @@ public partial class MainWindow : Window
             Position = AxisPosition.Left,
             Title = "count",
             TitleFontSize = 15,
+            TitleColor = axisColour,
+            TextColor = axisColour,
+            AxislineColor = axisColour,
+            TicklineColor = axisColour,
             Maximum = maxHoldTimeCount + maxHoldTimeCount * 0.1,
             MajorGridlineStyle = LineStyle.Solid,
-            MajorGridlineColor = OxyColors.LightGray,
+            MajorGridlineColor = gridColour,
+            MinorGridlineColor = gridColour,
             IsZoomEnabled = false,
             IsPanEnabled = false,
         });
@@ -138,7 +177,10 @@ public partial class MainWindow : Window
         {
             LegendPosition = LegendPosition.RightTop,
             LegendPlacement = LegendPlacement.Inside,
-            LegendFontSize = 10
+            LegendFontSize = 10,
+            LegendTextColor = ViewModel.IsDarkMode ? OxyColors.White : OxyColors.Black,
+            LegendBackground = OxyColors.Transparent,
+            LegendBorder = ViewModel.IsDarkMode ? OxyColors.Gray : OxyColors.LightGray
         });
 
         for (var i = 0; i < analysis.HoldTimes.Length; i++)
@@ -146,7 +188,7 @@ public partial class MainWindow : Window
             var lineSeries = new LineSeries
             {
                 Title = $"key {i + 1}",
-                Color = GetRainbowColor(i, analysis.HoldTimes.Length),
+                Color = GetRainbowColor(i, analysis.HoldTimes.Length, ViewModel.IsDarkMode),
                 StrokeThickness = 2,
                 TrackerFormatString = "{0}\nHold Time: {2:0} ms\nCount: {4:0}",
             };
@@ -163,13 +205,13 @@ public partial class MainWindow : Window
         PlotView.Model = plotModel;
     }
 
-    private static OxyColor GetRainbowColor(int index, int total)
+    private static OxyColor GetRainbowColor(int index, int total, bool isDarkTheme)
     {
-        const double saturation = 0.9;
-        const double value = 0.9;
+        var saturation = isDarkTheme ? 0.8 : 0.9;
+        var value = isDarkTheme ? 0.9 : 0.8;
 
-        const double c = value * saturation;
-        const double m = value - c;
+        var c = value * saturation;
+        var m = value - c;
         
         // Create a hue using the index & total
         // Then do standard HSV->RGB conversion

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Text.Json;
+using Avalonia.Styling;
 
 namespace ManiaKeyPresses.UI;
 
@@ -19,6 +20,8 @@ public static class GlobalConfig
 
     public static string? OsuClientSecret { get; private set; }
 
+    public static ThemeVariant Theme { get; private set; } = null!;
+
     public static void Load()
     {
         if (!Directory.Exists(ManiaKeyPressesFolder))
@@ -34,6 +37,7 @@ public static class GlobalConfig
 
         OsuClientId = config.OsuClientId;
         OsuClientSecret = config.OsuClientSecret;
+        Theme = config.Theme ?? ThemeVariant.Default;
     }
 
     public static void UpdateOsuClientId(string? clientId)
@@ -41,14 +45,7 @@ public static class GlobalConfig
         OsuClientId = clientId;
 
         NotifyPropertyChanged(nameof(OsuClientId));
-
-        var config = new Config
-        {
-            OsuClientId = clientId,
-            OsuClientSecret = OsuClientSecret,
-        };
-        
-        File.WriteAllText(ConfigFile, JsonSerializer.Serialize(config));
+        UpdateConfigFile();
     }
     
     public static void UpdateOsuClientSecret(string? clientSecret)
@@ -56,16 +53,28 @@ public static class GlobalConfig
         OsuClientSecret = clientSecret;
         
         NotifyPropertyChanged(nameof(OsuClientSecret));
+        UpdateConfigFile();
+    }
 
+    public static void UpdateTheme(ThemeVariant theme)
+    {
+        Theme = theme;
+
+        NotifyPropertyChanged(nameof(Theme));
+        UpdateConfigFile();
+    }
+
+    private static void UpdateConfigFile()
+    {
         var config = new Config
         {
             OsuClientId = OsuClientId,
-            OsuClientSecret = clientSecret,
+            OsuClientSecret = OsuClientSecret,
+            Theme = Theme,
         };
-        
+
         File.WriteAllText(ConfigFile, JsonSerializer.Serialize(config));
     }
-    
         
     public static event PropertyChangedEventHandler? PropertyChanged;
     
@@ -80,4 +89,6 @@ file class Config
     public string? OsuClientId { get; init; }
     
     public string? OsuClientSecret { get; init; }
+    
+    public ThemeVariant? Theme { get; init; }
 }
