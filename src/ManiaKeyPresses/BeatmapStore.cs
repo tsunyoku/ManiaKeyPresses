@@ -6,17 +6,12 @@ namespace ManiaKeyPresses;
 
 internal class BeatmapStore
 {
-    private readonly string _osuClientId;
-    private readonly string _osuClientSecret;
-
+    private readonly OAuthStore _oauthStore;
     private readonly string _beatmapCache;
-    
-    private string? _accessToken;
 
-    public BeatmapStore(string osuClientId, string osuClientSecret, string? beatmapCacheDirectory = null)
+    public BeatmapStore(OAuthStore oauthStore, string? beatmapCacheDirectory = null)
     {
-        _osuClientId = osuClientId;
-        _osuClientSecret = osuClientSecret;
+        _oauthStore = oauthStore;
         _beatmapCache = beatmapCacheDirectory ?? Path.Combine(Directory.GetCurrentDirectory(), "beatmaps");
 
         if (!Directory.Exists(_beatmapCache))
@@ -59,7 +54,7 @@ internal class BeatmapStore
 
     private int GetBeatmapId(string checksum)
     {
-        var accessToken = GetAccessToken();
+        var accessToken = _oauthStore.GetAccessToken();
         
         using var httpClient = new HttpClient();
 
@@ -75,33 +70,5 @@ internal class BeatmapStore
         var beatmap = JsonSerializer.Deserialize<Beatmap>(jsonResponse);
         
         return beatmap!.Id;
-    }
-
-    private string GetAccessToken()
-    {
-        if (_accessToken is not null)
-            return _accessToken;
-
-        var request = new HttpRequestMessage(HttpMethod.Post, "https://osu.ppy.sh/oauth/token");
-
-        request.Content = new FormUrlEncodedContent([
-            new KeyValuePair<string, string>("client_id", _osuClientId),
-            new KeyValuePair<string, string>("client_secret", _osuClientSecret),
-            new KeyValuePair<string, string>("grant_type", "client_credentials"),
-            new KeyValuePair<string, string>("scope", "public"),
-        ]);
-        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        
-        using var httpClient = new HttpClient();
-        var response = httpClient.Send(request);
-        
-        response.EnsureSuccessStatusCode();
-
-        using var jsonResponse = response.Content.ReadAsStream();
-        var accessToken = JsonSerializer.Deserialize<OsuOAuthResponse>(jsonResponse);
-
-        _accessToken = accessToken!.AccessToken;
-
-        return accessToken.AccessToken;
     }
 }

@@ -10,7 +10,8 @@ public class ManiaKeyPressAnalyser
 
     public ManiaKeyPressAnalyser(string osrFile, string osuClientId, string osuClientSecret, string? beatmapCacheDirectory = null)
     {
-        var beatmapStore = new BeatmapStore(osuClientId, osuClientSecret, beatmapCacheDirectory);
+        var oauthStore = new OAuthStore(osuClientId, osuClientSecret);
+        var beatmapStore = new BeatmapStore(oauthStore, beatmapCacheDirectory);
         var scoreDecoder = new LocalLegacyScoreDecoder(beatmapStore);
         
         using var stream = File.OpenRead(osrFile);
@@ -81,7 +82,8 @@ public class ManiaKeyPressAnalyser
 
         return new KeyPressAnalysis(
             histogram.Select(x => x.Times).ToArray(),
-            histogram.Select(x => x.Counts).ToArray());
+            histogram.Select(x => x.Counts).ToArray(),
+            _score);
     }
     
     private static (int[] Times, int[] Counts) CreateHistogram(List<int> durations, double rateMultiplier)
@@ -109,4 +111,4 @@ file class KeyState
     public List<int> HoldTimes { get; } = [];
 }
 
-public record KeyPressAnalysis(int[][] HoldTimes, int[][] HoldTimeCounts);
+public record KeyPressAnalysis(int[][] HoldTimes, int[][] HoldTimeCounts, Score Score);

@@ -29,12 +29,17 @@ public partial class MainWindow : Window
             Application.Current.RequestedThemeVariant = new ThemeVariant(GlobalConfig.Theme, null);
             ViewModel.UpdateIsDarkMode(GlobalConfig.Theme == "Dark");
         }
+
+        if (ViewModel.IsOsuConfigured)
+            _osuApiClient = new OsuApiClient(GlobalConfig.OsuClientId!, GlobalConfig.OsuClientSecret!);
         
         DragDrop.SetAllowDrop(this, true);
         AddHandler(DragDrop.DropEvent, Drop);
     }
     
     private MainViewModel ViewModel => (MainViewModel)DataContext!;
+
+    private OsuApiClient? _osuApiClient;
     
     private void OsuClientIdTextBox_OnLostFocus(object? sender, RoutedEventArgs e)
     {
@@ -42,6 +47,9 @@ public partial class MainWindow : Window
             return;
         
         GlobalConfig.UpdateOsuClientId(textBox.Text);
+
+        if (ViewModel.IsOsuConfigured)
+            _osuApiClient = new OsuApiClient(GlobalConfig.OsuClientId!, GlobalConfig.OsuClientSecret!);
     }
 
     private void OsuClientSecretTextBox_OnLostFocus(object? sender, RoutedEventArgs e)
@@ -50,6 +58,9 @@ public partial class MainWindow : Window
             return;
         
         GlobalConfig.UpdateOsuClientSecret(textBox.Text);
+
+        if (ViewModel.IsOsuConfigured)
+            _osuApiClient = new OsuApiClient(GlobalConfig.OsuClientId!, GlobalConfig.OsuClientSecret!);
     }
 
     private async void LoadReplayButton_Click(object? sender, RoutedEventArgs e)
@@ -202,6 +213,16 @@ public partial class MainWindow : Window
         }
 
         ViewModel.UpdateReplay(Path.GetFileName(replayPath));
+        ViewModel.UpdateScoreInfo(analysis.Score.ScoreInfo);
+
+        var score = _osuApiClient!.GetLegacyScore(
+            analysis.Score.ScoreInfo.LegacyOnlineID,
+            analysis.Score.ScoreInfo.Ruleset.ShortName);
+
+        var user = _osuApiClient.GetUser(score.UserId, analysis.Score.ScoreInfo.Ruleset.ShortName);
+
+        ViewModel.UpdateUser(user);
+        
         PlotView.Model = plotModel;
     }
 
