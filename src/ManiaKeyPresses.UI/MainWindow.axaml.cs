@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using Avalonia;
@@ -81,10 +82,14 @@ public partial class MainWindow : Window
 
         var screenshotFileName = $"keypresses_{ViewModel.ScoreInfo!.LegacyOnlineID}.png";
 
-        if (!Directory.Exists(GlobalConfig.ScreenshotPath))
-            Directory.CreateDirectory(GlobalConfig.ScreenshotPath);
+        var screenshotFolder = Path.Combine(
+            Path.GetDirectoryName(Environment.ProcessPath!)!,
+            "screenshots");
+
+        if (!Directory.Exists(screenshotFolder))
+            Directory.CreateDirectory(screenshotFolder);
         
-        var path = Path.Combine(GlobalConfig.ScreenshotPath, screenshotFileName);
+        var path = Path.Combine(screenshotFolder, screenshotFileName);
         bitmap.Save(path);
 
         var clipboard = GetTopLevel(this)?.Clipboard;
