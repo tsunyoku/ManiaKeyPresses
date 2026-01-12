@@ -37,25 +37,19 @@
                                 </HyperlinkButton>
                             </Border>
                             
-                            <TextBlock FontSize="14">
-                                <Run Text="Username:"/>
-                                <Run Text="{Binding User.Username}"/>
-                            </TextBlock>
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="5">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Username:" FontSize="14"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding User.Username}" FontSize="14" HorizontalAlignment="Right"/>
 
-                            <TextBlock FontSize="14">
-                                <Run Text="Rank:"/>
-                                <Run Text="{Binding User.Statistics.GlobalRank, StringFormat='#{0:N0}', FallbackValue='#-'}"/>
-                            </TextBlock>
-                            
-                            <TextBlock FontSize="14">
-                                <Run Text="Country:"/>
-                                <Run Text="{Binding User.Country.Name}"/>
-                            </TextBlock>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Rank:" FontSize="14"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding User.Statistics.GlobalRank, StringFormat='#{0:N0}', FallbackValue='#-'}" FontSize="14" HorizontalAlignment="Right"/>
+                                
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Country:" FontSize="14"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding User.Country.Name}" FontSize="14" HorizontalAlignment="Right"/>
 
-                            <TextBlock FontSize="14">
-                                <Run Text="PP:"/>
-                                <Run Text="{Binding User.Statistics.Pp, StringFormat='{}{0:N0}', FallbackValue='-'}"/>
-                            </TextBlock>
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="PP:" FontSize="14"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding User.Statistics.Pp, StringFormat='{}{0:N0}', FallbackValue='-'}" FontSize="14" HorizontalAlignment="Right"/>
+                            </Grid>
                         </StackPanel>
                     </StackPanel>
 
@@ -85,25 +79,19 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
 
-                            <TextBlock FontSize="14">
-                                <Run Text="Score:"/>
-                                <Run Text="{Binding ScoreInfo.LegacyTotalScore, StringFormat='{}{0:N0}'}" />
-                            </TextBlock>
-                            
-                            <TextBlock FontSize="14">
-                                <Run Text="Accuracy:"/>
-                                <Run Text="{Binding ScoreAccuracyPercentage, StringFormat='{}{0:F2}%'}" />
-                            </TextBlock>
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="5">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Score:" FontSize="14"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ScoreInfo.LegacyTotalScore, StringFormat='{}{0:N0}'}" FontSize="14" HorizontalAlignment="Right"/>
+                                
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Accuracy:" FontSize="14"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ScoreAccuracyPercentage, StringFormat='{}{0:F2}%'}" FontSize="14" HorizontalAlignment="Right"/>
 
-                            <TextBlock FontSize="14">
-                                <Run Text="Max Combo:"/>
-                                <Run Text="{Binding ScoreInfo.MaxCombo, StringFormat='{}{0:N0}x'}" />
-                            </TextBlock>
-                            
-                            <TextBlock FontSize="14">
-                                <Run Text="Grade:"/>
-                                <Run Text="{Binding ScoreInfo.Rank}" />
-                            </TextBlock>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Max Combo:" FontSize="14"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ScoreInfo.MaxCombo, StringFormat='{}{0:N0}x'}" FontSize="14" HorizontalAlignment="Right"/>
+                                
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Grade:" FontSize="14"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ScoreInfo.Rank}" FontSize="14" HorizontalAlignment="Right"/>
+                            </Grid>
                         </StackPanel>
                     </StackPanel>
 
