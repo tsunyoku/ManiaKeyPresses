@@ -2,7 +2,7 @@ using osu.Game.Rulesets.Replays;
 using osu.Game.Rulesets.Taiko.Replays;
 using osu.Game.Scoring;
 
-namespace ManiaKeyPresses;
+namespace ManiaKeyPresses.Analysers;
 
 public class TaikoKeyPressAnalyser(Score score) : KeyPressAnalyser(score)
 {

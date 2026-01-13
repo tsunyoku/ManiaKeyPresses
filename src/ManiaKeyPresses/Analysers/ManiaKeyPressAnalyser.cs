@@ -1,7 +1,8 @@
 using osu.Game.Rulesets.Mania.Replays;
 using osu.Game.Rulesets.Replays;
 using osu.Game.Scoring;
-namespace ManiaKeyPresses;
+
+namespace ManiaKeyPresses.Analysers;
 
 public class ManiaKeyPressAnalyser(Score score) : KeyPressAnalyser(score)
 {

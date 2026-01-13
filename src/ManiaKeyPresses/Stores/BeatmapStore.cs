@@ -2,7 +2,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using ManiaKeyPresses.Models;
 
-namespace ManiaKeyPresses;
+namespace ManiaKeyPresses.Stores;
 
 internal class BeatmapStore
 {

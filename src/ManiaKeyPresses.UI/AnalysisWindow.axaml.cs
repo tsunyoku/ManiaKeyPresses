@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Avalonia.Controls;
+using ManiaKeyPresses.Analysers;
 using ManiaKeyPresses.Helpers;
 using ManiaKeyPresses.Models;
 using OxyPlot;

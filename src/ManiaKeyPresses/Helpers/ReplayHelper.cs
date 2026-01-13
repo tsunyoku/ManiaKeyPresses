@@ -1,3 +1,4 @@
+using ManiaKeyPresses.Stores;
 using osu.Game.Scoring;
 
 namespace ManiaKeyPresses.Helpers;

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using ManiaKeyPresses.Models;
 
-namespace ManiaKeyPresses;
+namespace ManiaKeyPresses.Stores;
 
 internal class OAuthStore(string osuClientId, string osuClientSecret)
 {

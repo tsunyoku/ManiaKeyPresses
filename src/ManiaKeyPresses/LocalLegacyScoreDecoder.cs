@@ -1,3 +1,4 @@
+using ManiaKeyPresses.Stores;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mania;

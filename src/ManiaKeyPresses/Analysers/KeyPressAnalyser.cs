@@ -2,7 +2,7 @@ using osu.Game.Rulesets.Replays;
 using osu.Game.Scoring;
 using osu.Game.Utils;
 
-namespace ManiaKeyPresses;
+namespace ManiaKeyPresses.Analysers;
 
 public abstract class KeyPressAnalyser(Score score)
 {
