@@ -54,6 +54,12 @@ public class MainViewModel : INotifyPropertyChanged
         .Where(x => x.Acronym != "CL")
         .Select(x => new Bitmap(AssetLoader.Open(new Uri($"avares://ManiaKeyPresses.UI/Assets/Mods/{x.Acronym}.png"))))
         .ToArray() ?? [];
+
+    public Bitmap RulesetImage =>
+        new Bitmap(AssetLoader.Open(
+            new Uri($"avares://ManiaKeyPresses.UI/Assets/Rulesets/{ScoreInfo!.Ruleset.ShortName}.png")));
+
+    public bool IsManiaReplay => ScoreInfo?.RulesetID == 3;
     
     public User? User { get; private set; }
 
@@ -85,6 +91,8 @@ public class MainViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MehCount)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MissCount)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModImagePaths)));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RulesetImage)));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsManiaReplay)));
     }
 
     public void UpdateUser(User? user)

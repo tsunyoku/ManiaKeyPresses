@@ -15,6 +15,11 @@
                 Margin="0,10,10,10">
             <ScrollViewer Padding="15">
                 <StackPanel Spacing="20">
+                    <Image Source="{Binding RulesetImage}"
+                           Width="42"
+                           Height="42"
+                           Margin="0,0,4,0"/>
+
                     <StackPanel Spacing="10" IsVisible="{Binding PlayerInformationAvailable}">
                         <TextBlock Text="Player Information" 
                                   FontWeight="Bold" 
@@ -104,20 +109,20 @@
                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                         
                         <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="5">
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Perfect (320):" FontSize="13"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding PerfectCount, StringFormat='{}{0:N0}'}" FontSize="13" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Perfect (320):" FontSize="13" IsVisible="{Binding IsManiaReplay}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding PerfectCount, StringFormat='{}{0:N0}'}" FontSize="13" HorizontalAlignment="Right" IsVisible="{Binding IsManiaReplay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Great (300):" FontSize="13"/>
                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding GreatCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Good (200):" FontSize="13"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding GoodCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Good (200):" FontSize="13" IsVisible="{Binding IsManiaReplay}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding GoodCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right" IsVisible="{Binding IsManiaReplay}"/>
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="OK (100):" FontSize="13"/>
                             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding OkCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right"/>
 
-                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Meh (50):" FontSize="13"/>
-                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding MehCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Meh (50):" FontSize="13" IsVisible="{Binding IsManiaReplay}"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding MehCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right" IsVisible="{Binding IsManiaReplay}"/>
 
                             <TextBlock Grid.Row="5" Grid.Column="0" Text="Miss:" FontSize="13"/>
                             <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding MissCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right"/>
