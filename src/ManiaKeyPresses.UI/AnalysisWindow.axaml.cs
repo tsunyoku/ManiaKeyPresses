@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using Avalonia.Controls;
-using ManiaKeyPresses.Analysers;
+using ManiaKeyPresses.Extensions;
 using ManiaKeyPresses.Helpers;
 using ManiaKeyPresses.Models;
 using OxyPlot;
@@ -37,14 +37,7 @@ public partial class AnalysisWindow : UserControl
             GlobalConfig.OsuClientSecret!,
             GlobalConfig.BeatmapPath);
 
-        KeyPressAnalyser analyser = replayScore.ScoreInfo.RulesetID switch
-        {
-            3 => new ManiaKeyPressAnalyser(replayScore),
-            1 => new TaikoKeyPressAnalyser(replayScore),
-            _ => throw new InvalidOperationException("Unsupported ruleset")
-        };
-
-        var analysis = analyser.AnalyseReplay();
+        var analysis = replayScore.AnalyseKeyPresses();
         
         var plotModel = new PlotModel
         {
