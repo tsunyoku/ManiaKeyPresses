@@ -63,10 +63,16 @@ public partial class MainWindow : Window
     private async void LoadReplayButton_Click(object? sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(GlobalConfig.OsuClientId))
+        {
+            Logger.LogWarning("Skipped loading replay as missing client ID");
             return;
+        }
 
         if (string.IsNullOrWhiteSpace(GlobalConfig.OsuClientSecret))
+        {
+            Logger.LogWarning("Skipped loading replay as missing client secret");
             return;
+        }
 
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
@@ -76,12 +82,18 @@ public partial class MainWindow : Window
         });
 
         if (!files.Any())
+        {
+            Logger.LogWarning("Skipped loading replay as no file was picked");
             return;
+        }
 
         var path = files.Single().TryGetLocalPath();
 
         if (Path.GetExtension(path) != ".osr")
+        {
+            Logger.LogWarning("Skipped loading replay as non-osr file was provided");
             return;
+        }
 
         var replayPath = files.Single().TryGetLocalPath()!;
         AnalysisControl.AnalyseReplay(replayPath);

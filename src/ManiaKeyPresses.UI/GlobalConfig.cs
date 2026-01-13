@@ -15,6 +15,8 @@ public static class GlobalConfig
     public static readonly string BeatmapPath = Path.Combine(ManiaKeyPressesFolder, "beatmaps");
 
     private static readonly string ConfigFile = Path.Combine(ManiaKeyPressesFolder, "config.json");
+    
+    public static readonly string LogFile = Path.Combine(ManiaKeyPressesFolder, "runtime.log");
 
     public static string? OsuClientId { get; private set; }
 

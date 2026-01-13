@@ -29,7 +29,10 @@ public partial class AnalysisWindow : UserControl
     public void AnalyseReplay(string replayPath)
     {
         if (string.IsNullOrWhiteSpace(replayPath))
+        {
+            Logger.LogWarning("Skipping replay analysis as provided path was empty");
             return;
+        }
         
         var replayScore = ReplayHelper.DecodeFromFile(
             replayPath,
