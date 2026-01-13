@@ -11,6 +11,7 @@ public static class ScoreExtensions
         {
             3 => new ManiaKeyPressAnalyser(score),
             1 => new TaikoKeyPressAnalyser(score),
+            0 => new OsuKeyPressAnalyser(score),
             _ => throw new InvalidOperationException("Unsupported ruleset")
         };
 

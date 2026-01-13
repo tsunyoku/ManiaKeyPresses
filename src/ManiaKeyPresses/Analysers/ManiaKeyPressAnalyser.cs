@@ -4,7 +4,7 @@ using osu.Game.Scoring;
 
 namespace ManiaKeyPresses.Analysers;
 
-public class ManiaKeyPressAnalyser(Score score) : KeyPressAnalyser(score)
+internal class ManiaKeyPressAnalyser(Score score) : KeyPressAnalyser(score)
 {
     protected override int KeyCount => 18;
 

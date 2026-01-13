@@ -2,6 +2,7 @@ using ManiaKeyPresses.Stores;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mania;
+using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Taiko;
 using osu.Game.Scoring.Legacy;
 
@@ -11,11 +12,13 @@ internal class LocalLegacyScoreDecoder(BeatmapStore beatmapStore) : LegacyScoreD
 {
     private static readonly ManiaRuleset Mania = new();
     private static readonly TaikoRuleset Taiko = new();
+    private static readonly OsuRuleset Osu = new();
 
     protected override Ruleset GetRuleset(int rulesetId)
     {
         return rulesetId switch
         {
+            0 => Osu,
             1 => Taiko,
             3 => Mania,
             _ => throw new InvalidOperationException("Tried to decode unsupported replay")

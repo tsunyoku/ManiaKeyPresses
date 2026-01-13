@@ -60,6 +60,8 @@ public class MainViewModel : INotifyPropertyChanged
             new Uri($"avares://ManiaKeyPresses.UI/Assets/Rulesets/{ScoreInfo!.Ruleset.ShortName}.png")));
 
     public bool IsManiaReplay => ScoreInfo?.RulesetID == 3;
+
+    public bool IsTaikoReplay => ScoreInfo?.RulesetID == 1;
     
     public User? User { get; private set; }
 
@@ -93,6 +95,7 @@ public class MainViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModImagePaths)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RulesetImage)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsManiaReplay)));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTaikoReplay)));
     }
 
     public void UpdateUser(User? user)

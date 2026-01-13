@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2026.102.0" />
+      <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2026.102.0" />
       <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2026.102.0" />
     </ItemGroup>
 

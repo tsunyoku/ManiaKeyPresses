@@ -1,15 +1,15 @@
+using osu.Game.Rulesets.Osu.Replays;
 using osu.Game.Rulesets.Replays;
-using osu.Game.Rulesets.Taiko.Replays;
 using osu.Game.Scoring;
 
 namespace ManiaKeyPresses.Analysers;
 
-internal class TaikoKeyPressAnalyser(Score score) : KeyPressAnalyser(score)
+internal class OsuKeyPressAnalyser(Score score) : KeyPressAnalyser(score)
 {
-    protected override int KeyCount => 4;
+    protected override int KeyCount => 2;
 
     protected override int[] GetActiveKeys(ReplayFrame frame)
-        => ((TaikoReplayFrame)frame).Actions
+        => ((OsuReplayFrame)frame).Actions
             .Select(x => (int)x)
             .Order()
             .ToArray();

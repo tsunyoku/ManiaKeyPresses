@@ -121,8 +121,8 @@
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="OK (100):" FontSize="13"/>
                             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding OkCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right"/>
 
-                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Meh (50):" FontSize="13" IsVisible="{Binding IsManiaReplay}"/>
-                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding MehCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right" IsVisible="{Binding IsManiaReplay}"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Meh (50):" FontSize="13" IsVisible="{Binding !IsTaikoReplay}"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding MehCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right" IsVisible="{Binding !IsTaikoReplay}"/>
 
                             <TextBlock Grid.Row="5" Grid.Column="0" Text="Miss:" FontSize="13"/>
                             <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding MissCount, StringFormat='{}{0:N0}'}"  FontSize="13" HorizontalAlignment="Right"/>

@@ -63,6 +63,7 @@ public partial class AnalysisWindow : UserControl
             Minimum = 0,
             Maximum = replayScore.ScoreInfo.RulesetID switch
             {
+                0 => 170,
                 1 => 160,
                 3 => 160,
                 _ => throw new InvalidOperationException("Unsupported ruleset"),
