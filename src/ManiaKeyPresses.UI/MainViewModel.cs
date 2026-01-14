@@ -55,9 +55,11 @@ public class MainViewModel : INotifyPropertyChanged
         .Select(x => new Bitmap(AssetLoader.Open(new Uri($"avares://ManiaKeyPresses.UI/Assets/Mods/{x.Acronym}.png"))))
         .ToArray() ?? [];
 
-    public Bitmap RulesetImage =>
-        new Bitmap(AssetLoader.Open(
-            new Uri($"avares://ManiaKeyPresses.UI/Assets/Rulesets/{ScoreInfo!.Ruleset.ShortName}.png")));
+    public Bitmap? RulesetImage =>
+        ScoreInfo is not null
+            ? new Bitmap(AssetLoader.Open(
+                new Uri($"avares://ManiaKeyPresses.UI/Assets/Rulesets/{ScoreInfo.Ruleset.ShortName}.png")))
+            : null;
 
     public bool IsManiaReplay => ScoreInfo?.RulesetID == 3;
 

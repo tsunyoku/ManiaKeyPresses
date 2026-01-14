@@ -133,9 +133,14 @@ public partial class AnalysisWindow : UserControl
 
         var osuApiClient = new OsuApiClient(GlobalConfig.OsuClientId!, GlobalConfig.OsuClientSecret!);
 
-        var score = osuApiClient.GetLegacyScore(
-            analysis.Score.ScoreInfo.LegacyOnlineID,
-            analysis.Score.ScoreInfo.Ruleset.ShortName);
+        Score? score;
+
+        if (analysis.Score.ScoreInfo.OnlineID > 0)
+            score = osuApiClient.GetScore(analysis.Score.ScoreInfo.OnlineID);
+        else
+            score = osuApiClient.GetLegacyScore(
+                analysis.Score.ScoreInfo.LegacyOnlineID,
+                analysis.Score.ScoreInfo.Ruleset.ShortName);
 
         User? user = null;
 

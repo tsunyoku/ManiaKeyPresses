@@ -9,12 +9,13 @@ public class OsuApiClient(string osuClientId, string osuClientSecret)
 {
     private readonly OAuthStore _oauthStore = new(osuClientId, osuClientSecret);
     
-    private static readonly Dictionary<(long, string), Score> Scores = new();
+    private static readonly Dictionary<(long, string), Score> LegacyScores = new();
+    private static readonly Dictionary<long, Score> Scores = new();
     private static readonly Dictionary<(int, string), User> Users = new();
 
     public Score? GetLegacyScore(long scoreId, string rulesetName)
     {
-        if (Scores.TryGetValue((scoreId, rulesetName), out var score))
+        if (LegacyScores.TryGetValue((scoreId, rulesetName), out var score))
             return score;
 
         var accessToken = _oauthStore.GetAccessToken();
@@ -34,7 +35,34 @@ public class OsuApiClient(string osuClientId, string osuClientSecret)
         using var jsonResponse = response.Content.ReadAsStream();
 
         score = JsonSerializer.Deserialize<Score>(jsonResponse);
-        Scores[(scoreId, rulesetName)] = score!;
+        LegacyScores[(scoreId, rulesetName)] = score!;
+
+        return score!;
+    }
+    
+    public Score? GetScore(long scoreId)
+    {
+        if (Scores.TryGetValue(scoreId, out var score))
+            return score;
+
+        var accessToken = _oauthStore.GetAccessToken();
+        
+        using var httpClient = new HttpClient();
+
+        var request = new HttpRequestMessage(HttpMethod.Get, $"https://osu.ppy.sh/api/v2/scores/{scoreId}");
+        
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        request.Headers.Add("x-api-version", "99999999");
+
+        var response = httpClient.Send(request);
+
+        if (!response.IsSuccessStatusCode)
+            return null;
+        
+        using var jsonResponse = response.Content.ReadAsStream();
+
+        score = JsonSerializer.Deserialize<Score>(jsonResponse);
+        Scores[scoreId] = score!;
 
         return score!;
     }
