@@ -1,6 +1,7 @@
 using osu.Game.Rulesets.Replays;
-using osu.Game.Scoring;
 using osu.Game.Utils;
+using OsuKeyPresses.Models;
+using Score = osu.Game.Scoring.Score;
 
 namespace OsuKeyPresses.Analysers;
 
@@ -97,5 +98,3 @@ file class KeyState
     public int CurrentHoldTime { get; set; }
     public List<int> HoldTimes { get; } = [];
 }
-
-public record KeyPressAnalysis(int[][] HoldTimes, int[][] HoldTimeCounts, Score Score);

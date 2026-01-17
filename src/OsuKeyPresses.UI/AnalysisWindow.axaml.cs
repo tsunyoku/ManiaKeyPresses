@@ -25,6 +25,9 @@ public partial class AnalysisWindow : UserControl
     private MainViewModel ViewModel => (MainViewModel)DataContext!;
 
     public PlotView AnalysisPlot => PlotView;
+
+    public KeyPressAnalysis? Analysis { get; private set; }
+    public User? User { get; private set; }
     
     public void AnalyseReplay(string replayPath)
     {
@@ -148,6 +151,9 @@ public partial class AnalysisWindow : UserControl
             user = osuApiClient.GetUser(score.UserId, analysis.Score.ScoreInfo.Ruleset.ShortName);
 
         ViewModel.UpdateUser(user);
+
+        Analysis = analysis;
+        User = user;
         
         PlotView.Model = plotModel;
     }

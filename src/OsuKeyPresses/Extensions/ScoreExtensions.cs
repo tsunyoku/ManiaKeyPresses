@@ -1,5 +1,6 @@
 using OsuKeyPresses.Analysers;
-using osu.Game.Scoring;
+using OsuKeyPresses.Models;
+using Score = osu.Game.Scoring.Score;
 
 namespace OsuKeyPresses.Extensions;
 

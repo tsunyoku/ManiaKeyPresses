@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
@@ -99,11 +100,46 @@ public partial class MainWindow : Window
         AnalysisControl.AnalyseReplay(replayPath);
     }
 
+    private async void ExportJsonButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (AnalysisControl.Analysis is null)
+            return;
+
+        var data = AnalysisControl.Analysis!.Export(AnalysisControl.User);
+
+        var scoreId = ViewModel.ScoreInfo!.OnlineID > 0
+            ? ViewModel.ScoreInfo!.OnlineID
+            : ViewModel.ScoreInfo!.LegacyOnlineID;
+
+        var dataFilename = $"score_{scoreId}.json";
+        
+        var exportFolder = Path.Combine(
+            Path.GetDirectoryName(Environment.ProcessPath!)!,
+            "exports");
+
+        if (!Directory.Exists(exportFolder))
+            Directory.CreateDirectory(exportFolder);
+        
+        var exportPath =  Path.Combine(exportFolder, dataFilename);
+
+        var serialisedData = JsonSerializer.Serialize(data, new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            IndentSize = 4,
+        });
+        
+        await File.WriteAllTextAsync(exportPath, serialisedData);
+    }
+
     private async void SaveScreenshotButton_Click(object? sender, RoutedEventArgs e)
     {
         using var bitmap = CaptureAnalysisControl();
+        
+        var scoreId = ViewModel.ScoreInfo!.OnlineID > 0
+            ? ViewModel.ScoreInfo!.OnlineID
+            : ViewModel.ScoreInfo!.LegacyOnlineID;
 
-        var screenshotFileName = $"keypresses_{ViewModel.ScoreInfo!.LegacyOnlineID}";
+        var screenshotFileName = $"keypresses_{scoreId}";
 
         var plotModel = AnalysisControl.AnalysisPlot.Model;
 
