@@ -52,5 +52,6 @@
     <AvaloniaResource Include="Assets\Rulesets\taiko.png" />
     <AvaloniaResource Include="Assets\Rulesets\mania.png" />
     <AvaloniaResource Include="Assets\Rulesets\osu.png" />
+    <AvaloniaResource Include="Assets\Mods\SV2.png" />
   </ItemGroup>
 </Project>
