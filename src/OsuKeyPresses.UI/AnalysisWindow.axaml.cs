@@ -36,6 +36,12 @@ public partial class AnalysisWindow : UserControl
             Logger.LogWarning("Skipping replay analysis as provided path was empty");
             return;
         }
+
+        User = null;
+        Analysis = null;
+
+        ViewModel.UpdateScoreInfo(null);
+        ViewModel.UpdateUser(null);
         
         var replayScore = ReplayHelper.DecodeFromFile(
             replayPath,

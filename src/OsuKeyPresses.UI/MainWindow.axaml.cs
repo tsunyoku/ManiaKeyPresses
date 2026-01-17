@@ -113,6 +113,12 @@ public partial class MainWindow : Window
 
         var dataFilename = $"score_{scoreId}.json";
         
+        if (scoreId <= 0)
+        {
+            dataFilename = $"score_local_{GlobalConfig.LocalId}.json";
+            GlobalConfig.UpdateLocalId(GlobalConfig.LocalId + 1);
+        }
+        
         var exportFolder = Path.Combine(
             Path.GetDirectoryName(Environment.ProcessPath!)!,
             "exports");
@@ -140,6 +146,12 @@ public partial class MainWindow : Window
             : ViewModel.ScoreInfo!.LegacyOnlineID;
 
         var screenshotFileName = $"keypresses_{scoreId}";
+
+        if (scoreId <= 0)
+        {
+            screenshotFileName = $"keypresses_local_{GlobalConfig.LocalId}";
+            GlobalConfig.UpdateLocalId(GlobalConfig.LocalId + 1);
+        }
 
         var plotModel = AnalysisControl.AnalysisPlot.Model;
 

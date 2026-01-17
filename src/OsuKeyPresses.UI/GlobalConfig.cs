@@ -23,6 +23,8 @@ public static class GlobalConfig
     public static string? OsuClientSecret { get; private set; }
 
     public static string Theme { get; private set; } = "Dark";
+
+    public static long LocalId { get; private set; } = 1;
     
     public static bool IsDarkMode => Theme == "Dark";
 
@@ -44,6 +46,9 @@ public static class GlobalConfig
 
         if (config.ThemeName is not null)
             Theme = config.ThemeName;
+
+        if (config.LocalId is not null)
+            LocalId = config.LocalId!.Value;
     }
 
     public static void UpdateOsuClientId(string? clientId)
@@ -67,6 +72,14 @@ public static class GlobalConfig
         Theme = (string)theme.Key;
 
         NotifyPropertyChanged(nameof(Theme));
+        UpdateConfigFile();
+    }
+
+    public static void UpdateLocalId(long localId)
+    {
+        LocalId = localId;
+        
+        NotifyPropertyChanged(nameof(LocalId));
         UpdateConfigFile();
     }
 
@@ -97,4 +110,6 @@ file class Config
     public string? OsuClientSecret { get; init; }
     
     public string? ThemeName { get; init; }
+    
+    public long? LocalId { get; init; }
 }
